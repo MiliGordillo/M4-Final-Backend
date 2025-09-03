@@ -88,7 +88,8 @@ exports.forgotPassword = async (req, res) => {
 
     // Genera un token de recuperación
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const resetLink = `${frontendUrl}/reset-password?token=${resetToken}`;
 
     // Transporter para Hotmail
     const transporter = nodemailer.createTransport({
