@@ -71,16 +71,6 @@ exports.getPlaylistTracks = async (req, res) => {
   }
 };
 
-exports.getRecommendations = async (req, res) => {
-  try {
-    const params = req.query;
-    const recommendations = await spotifyService.getRecommendations(params);
-    res.json(recommendations);
-  } catch (err) {
-    res.status(500).json({ message: 'Error al obtener recomendaciones', error: err.message });
-  }
-};
-
 exports.search = async (req, res) => {
   try {
     const { q, type = "track" } = req.query;

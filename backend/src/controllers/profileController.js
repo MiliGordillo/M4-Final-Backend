@@ -1,9 +1,9 @@
-const Profile = require('../models/Profile');
+const Profile = require("../models/Profile");
+const User = require("../models/User");
 
 exports.getAllProfiles = async (req, res) => {
   try {
     // Obtener el usuario autenticado
-    const User = require('../models/User');
     const userId = req.user.id || req.user._id || req.user.userId;
     const user = await User.findById(userId).populate('profiles');
     if (!user) {
@@ -19,13 +19,17 @@ exports.getProfileById = async (req, res) => {
   try {
     const profile = await Profile.findById(req.params.id);
     if (!profile) return res.status(404).json({ message: 'Perfil no encontrado' });
+
+    // Asegura que los arrays existan
+    if (!Array.isArray(profile.favoriteArtists)) profile.favoriteArtists = [];
+    if (!Array.isArray(profile.favoriteAlbums)) profile.favoriteAlbums = [];
+
     res.json(profile);
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener perfil', error: err.message });
   }
 };
 
-const User = require('../models/User');
 exports.createProfile = async (req, res) => {
   try {
     const { name, type, avatar, language, ageRestriction, myList } = req.body;
@@ -92,7 +96,6 @@ exports.deleteProfile = async (req, res) => {
 exports.getProfiles = async (req, res) => {
   try {
     // Obtener el usuario autenticado
-    const User = require('../models/User');
     const userId = req.user.id || req.user._id || req.user.userId;
     const user = await User.findById(userId).populate('profiles');
     if (!user) {

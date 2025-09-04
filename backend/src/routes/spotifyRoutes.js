@@ -14,6 +14,5 @@ router.get('/album/:id', auth, spotifyController.getAlbumById);
 // Solo owner y standard pueden importar playlists de Spotify
 router.get('/playlist/:id', auth, permitRoles('owner', 'standard'), spotifyController.getPlaylistById);
 router.get('/playlist/:id/tracks', auth, permitRoles('owner', 'standard'), spotifyController.getPlaylistTracks);
-router.get('/recommendations', auth, spotifyController.getRecommendations);
 
 module.exports = router;
